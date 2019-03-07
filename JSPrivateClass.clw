@@ -200,7 +200,7 @@ NullDummy &LONG
    WhichWhat = INT(pLabel)
  ELSE
    LOOP Ndx = 1 to SELF.MaxLoop 
-     IF UPPER(pLabel) = WHO(pClass,Ndx)
+     IF UPPER(pLabel) = UPPER(WHO(pClass,Ndx))
         WhichWhat = Ndx
         BREAK
      END
