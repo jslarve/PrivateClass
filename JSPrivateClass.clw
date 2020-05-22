@@ -1,5 +1,7 @@
   MEMBER
 
+!2020.05.21 Added equates for data types, and modified code to use them.
+
 !MIT License
 !
 !Copyright (c) 2019 Jeff Slarve
@@ -56,7 +58,7 @@ Ndx LONG,AUTO
     SELF.EnumQ.Address       =  SELF.GetFieldAddress(pClass,Ndx)
     SELF.EnumQ.DataType      =  SELF.GetAnyDataType(WHAT(pClass,Ndx))
     SELF.EnumQ.Size          =  SELF.GetAnyDataSize(WHAT(pClass,Ndx))
-    IF SELF.EnumQ.DataType =  31 !Reference
+    IF SELF.EnumQ.DataType =  JSP:DataType:Reference
       SELF.EnumQ.IsReference =  TRUE
       IF NOT SELF.EnumQ.Address
         SELF.EnumQ.IsNull = TRUE
@@ -104,56 +106,62 @@ ReturnVal CSTRING(20)
 
   CODE
 
-  ReturnVal = '(unknown)'
-  CASE pDataType
-  OF DataType:ENDGROUP
-    ReturnVal = 'ENDGROUP'
-  of DataType:BYTE
-    ReturnVal = 'BYTE'
-  of DataType:SHORT
-    ReturnVal = 'SHORT'
-  of DataType:USHORT
-    ReturnVal = 'USHORT'
-  of DataType:DATE
-    ReturnVal = 'DATE'
-  of DataType:TIME
-    ReturnVal = 'TIME'
-  of DataType:LONG
-    ReturnVal = 'LONG'
-  of DataType:ULONG
-    ReturnVal = 'ULONG'
-  of DataType:SREAL
-    ReturnVal = 'SREAL'
-  of DataType:REAL
-    ReturnVal = 'REAL'
-  of DataType:DECIMAL
-    ReturnVal = 'DECIMAL'
-  of DataType:PDECIMAL
-    ReturnVal = 'PDECIMAL'
-  of DataType:BFLOAT4
-    ReturnVal = 'BFLOAT4'
-  of DataType:BFLOAT8
-    ReturnVal = 'BFLOAT8'
-  of DataType:STRING
-    ReturnVal = 'STRING'
-  of DataType:CSTRING
-    ReturnVal = 'CSTRING'
-  of DataType:PSTRING
-    ReturnVal = 'PSTRING'
-  of DataType:MEMO
-    ReturnVal = 'MEMO'
-  of DataType:GROUP
-    ReturnVal = 'GROUP'
-  of DataType:CLASS
-    ReturnVal = 'CLASS'
-  of DataType:QUEUE
-    ReturnVal = 'QUEUE'
-  of DataType:BLOB
-    ReturnVal = 'BLOB'
-  of 31
-    ReturnVal = 'Reference'
-  END
-  RETURN ReturnVal
+  ReturnVal = '(unknown ' & pDataType & ')'
+    CASE pDataType
+    OF DataType:ENDGROUP
+        ReturnVal = 'ENDGROUP'
+    OF DataType:BYTE
+        ReturnVal = 'BYTE'
+    OF DataType:SHORT
+        ReturnVal = 'SHORT'
+    OF DataType:USHORT
+        ReturnVal = 'USHORT'
+    OF DataType:DATE
+        ReturnVal = 'DATE'
+    OF DataType:TIME
+        ReturnVal = 'TIME'
+    OF DataType:LONG
+        ReturnVal = 'LONG'
+    OF DataType:ULONG
+        ReturnVal = 'ULONG'
+    OF DataType:SREAL
+        ReturnVal = 'SREAL'
+    OF DataType:REAL
+        ReturnVal = 'REAL'
+    OF DataType:DECIMAL
+        ReturnVal = 'DECIMAL'
+    OF DataType:PDECIMAL
+        ReturnVal = 'PDECIMAL'
+    OF DataType:BFLOAT4
+        ReturnVal = 'BFLOAT4'
+    OF DataType:BFLOAT8
+        ReturnVal = 'BFLOAT8'
+    OF DataType:STRING
+        ReturnVal = 'STRING'
+    OF DataType:CSTRING
+        ReturnVal = 'CSTRING'
+    OF DataType:PSTRING
+        ReturnVal = 'PSTRING'
+    OF DataType:MEMO
+        ReturnVal = 'MEMO'
+    OF DataType:GROUP
+        ReturnVal = 'GROUP'
+    OF DataType:CLASS
+        ReturnVal = 'CLASS'
+    OF DataType:QUEUE
+        ReturnVal = 'QUEUE'
+    OF DataType:BLOB
+        ReturnVal = 'BLOB'
+    OF JSP:DataType:REFERENCE 
+        ReturnVal = 'REFERENCE'
+    OF JSP:DataType:BSTRING   
+        ReturnVal = 'BSTRING' !From Carl Barnes
+    OF JSP:DataType:ASTRING   
+        ReturnVal = 'ASTRING' !From Carl Barnes
+    OF JSP:DataType:VARIANT   
+        ReturnVal = 'VARIANT' !From Carl Barnes
+    END
+    RETURN ReturnVal
 
 JSPrivateClass.GetFieldAddress PROCEDURE(*GROUP pClass,STRING pLabel)!,LONG
 Ndx       LONG,AUTO      !a counter
@@ -205,7 +213,7 @@ NullDummy &LONG
    END
  END
  IF WhichWhat
-   IF NOT SELF.IsReference(pClass,WhichWhat) !SELF.GetAnyDataType(WHAT(pClass,WhichWhat)) = 31 !Not a Reference type
+   IF NOT SELF.IsReference(pClass,WhichWhat) !Not a Reference type
      RETURN WHAT(pCLass,WhichWhat)
    END
  END
@@ -216,4 +224,4 @@ ReturnVal LONG,AUTO
 
   CODE
 
-  RETURN CHOOSE(SELF.GetAnyDataType(WHAT(pClass,pElement)) = 31)
+  RETURN CHOOSE(SELF.GetAnyDataType(WHAT(pClass,pElement)) = JSP:DataType:REFERENCE)

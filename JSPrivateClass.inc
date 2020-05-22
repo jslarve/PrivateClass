@@ -1,5 +1,7 @@
 !ABCIncludeFile
 
+!2020.05.21 Added equates for data types, and modified code to use them.
+
  OMIT('_EndOfInclude_',_JSPrivateClassPresent_)
 _JSPrivateClassPresent_ EQUATE(1)
 
@@ -34,6 +36,12 @@ IsNull                   BYTE
 IsReference              BYTE
 DataType                 BYTE
                        END
+
+!Data Type Equates from Jeff Slarve and from Carl Barnes 2020.05.21
+JSP:DataType:REFERENCE EQUATE(31)            ! 1Fh !From XMLType.inc (and Jeff Slarve<g>)
+JSP:DataType:BSTRING   EQUATE(42)            ! 2Ah !From Carl Barnes
+JSP:DataType:ASTRING   EQUATE(43)            ! 2Bh !From Carl Barnes
+JSP:DataType:VARIANT   EQUATE(45)            ! 2Dh !From Carl Barnes
 
 JSPrivateClass         CLASS,TYPE,MODULE('JSPrivateClass.clw'),LINK('JSPrivateClass.clw',_ABCLinkMode_),DLL(_ABCDllMode_)
 EnumQ                    &JSPC_MemberEnumQ

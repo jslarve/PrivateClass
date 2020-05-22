@@ -37,7 +37,8 @@ MyPopup     LocalPopup
 QueueRef    &QUEUE
 MyThread    ANY
 
-RTF         RTFControlClass
+RTF                 RTFControlClass
+
 
 Window WINDOW('Private Property Access Test'),AT(,,377,217),CENTER,GRAY, |
             FONT('Microsoft Sans Serif',8)

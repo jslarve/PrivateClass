@@ -1,4 +1,7 @@
 # PrivateClass
+
+*2020.05.21 Added equates for data types, and modified code to use them.*
+
 A Class for getting at PRIVATE properties in Clarion Classes
 
 Be sure to read the comments in the demo application.
